@@ -1,12 +1,12 @@
 package com.example.geo_2.proyectoso;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class PlayActivity extends AppCompatActivity {
+public class PlayActivity extends Activity {
 
     private ImageView btnPlay;
     private boolean flag = true;
