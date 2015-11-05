@@ -25,9 +25,11 @@ public class HomeActivity extends Activity {
     public void goPlay(View v){
         Bundle b = new Bundle();
         b.putString("Name", txtName.getText().toString());
-        Intent i = new Intent(HomeActivity.this, PlayActivity.class);
+        Intent i = new Intent(HomeActivity.this, LoadingActivity.class);
         i.putExtras(b);
         startActivity(i);
+
+        HomeActivity.this.finish();
     }
 
     @Override
