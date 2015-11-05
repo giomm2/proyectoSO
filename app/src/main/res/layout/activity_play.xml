@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.geo_2.proyectoso.PlayActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btn_previous"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:src="@mipmap/ic_previous_track"
+            app:cb_color="#3F51B5"
+            app:cb_pressedRingWidth="4dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/play_Music"
+            android:layout_toStartOf="@+id/play_Music"
+            android:layout_marginRight="10dp" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btn_next"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:src="@mipmap/ic_next_track"
+            app:cb_color="#3F51B5"
+            app:cb_pressedRingWidth="4dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/play_Music"
+            android:layout_toEndOf="@+id/play_Music"
+            android:layout_marginLeft="10dp" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/play_Music"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_play"
+            app:cb_color="#3F51B5"
+            app:cb_pressedRingWidth="4dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/textName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
