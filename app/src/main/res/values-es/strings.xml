@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">proyectoSO</string>
 
@@ -5,6 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="home_activity">Home</string>
-    <string name="playlist_activity">Playlist</string>
-    <string name="search_activity">Search</string>
+    <string name="playlist_activity">Lista de Reproducción</string>
+    <string name="search_activity">Búsqueda</string>
 </resources>
