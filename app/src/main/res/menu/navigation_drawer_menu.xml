@@ -11,19 +11,11 @@
             android:title="Busqueda" />
         <!-- android:icon="@drawable/ic_profile_dr" -->
         <item
-            android:id="@+id/item_navigation_drawer_songs"
-            android:title="canciones" />
-        <!-- android:icon="@drawable/ic_route_dr" -->
-        <item
-            android:id="@+id/item_navigation_drawer_genders"
-            android:title="Generos" />
-        <!--    android:icon="@drawable/ic_challenge_dr" -->
-        <item
             android:id="@+id/item_navigation_drawer_playlist"
             android:title="Playlist" />
         <!--    android:icon="@drawable/ic_challenge_dr" -->
     </group>
-    <item android:title="Otros">
+    <item android:title="">
         <menu>
             <item
                 android:id="@+id/item_navigation_drawer_help_and_feedback"

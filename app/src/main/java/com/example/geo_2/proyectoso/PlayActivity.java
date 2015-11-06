@@ -1,6 +1,7 @@
 package com.example.geo_2.proyectoso;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,9 +33,6 @@ public class PlayActivity extends AppCompatActivity {
         switchButton();
 
         clientName = (TextView) findViewById(R.id.textName);
-        Bundle b = getIntent().getExtras();
-        String name = b.getString("Name");
-        clientName.setText(name);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,6 +45,14 @@ public class PlayActivity extends AppCompatActivity {
             setupNavigationDrawerContent(navigationView);
         }
         setupNavigationDrawerContent(navigationView);
+
+       // receiveName();
+    }
+
+    public void receiveName(){
+        Bundle b = getIntent().getExtras();
+        String name = b.getString("Name");
+        clientName.setText(name);
     }
 
     //Metodo que hace el cambio del icono del boton play/pause
@@ -78,30 +84,19 @@ public class PlayActivity extends AppCompatActivity {
                                 return true;
                             case R.id.item_navigation_drawer_search:
                                 menuItem.setChecked(true);
+                                Intent i1 = new Intent(PlayActivity.this, SearchActivity.class);
+                                startActivity(i1);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
-                            case R.id.item_navigation_drawer_songs:
-                                menuItem.setChecked(true);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                             //   Intent intent2 = new Intent(HomeActivity.this, UserRoutes.class);
-                             //   startActivity(intent2);
-                                return true;
-
-                            case R.id.item_navigation_drawer_genders:
-                                menuItem.setChecked(true);
-                              //  Intent intent = new Intent(PlayActivity.this, RetosActivity.class);
-                               // startActivity(intent);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
-
                             case R.id.item_navigation_drawer_playlist:
                                 menuItem.setChecked(true);
+                                Intent i2 = new Intent(PlayActivity.this, PlayListActivity.class);
+                                startActivity(i2);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
 
                             case R.id.item_navigation_drawer_help_and_feedback:
                                 menuItem.setChecked(true);
-                              //  messageClose();
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                         }
