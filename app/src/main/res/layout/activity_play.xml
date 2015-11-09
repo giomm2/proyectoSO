@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="@bool/fitsSystemWindows">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,6 +15,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:text="" />
+
+
 
     <RelativeLayout
         android:id="@+id/container"
@@ -56,11 +59,14 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp" />
 
+
+
     </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_bar_margin_top">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -81,9 +87,18 @@
         app:menu="@menu/navigation_drawer_menu"
         app:theme="@style/NavigationViewTheme" >
     </android.support.design.widget.NavigationView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:id="@+id/linear_layout"
+        android:orientation="horizontal"
+        android:layout_weight="0.11">
+    </LinearLayout>
 
 
 </android.support.v4.widget.DrawerLayout>
+
+
 
 <!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
