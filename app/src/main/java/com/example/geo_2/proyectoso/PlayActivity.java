@@ -9,7 +9,9 @@ import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +32,10 @@ public class PlayActivity extends AppCompatActivity {
 
     private final String MEDIA_PATH = new String("storage/sdcard0/Download/owari-no-seraph-ending-full.mp3");
     private static final float VISUALIZER_HEIGHT_DIP = 50f;
-
     //Your MediaPlayer
     MediaPlayer mp;
-
     //Vizualization
     private Visualizer mVisualizer;
-
     private LinearLayout mLinearLayout;
     private VisualizerView mVisualizerView;
     private TextView mStatusTextView;
@@ -44,9 +43,8 @@ public class PlayActivity extends AppCompatActivity {
     private boolean flag = true;
     private TextView clientName;
     private ActionBar actionBar;
-
     Toolbar toolbar;
-    DrawerLayout drawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +54,18 @@ public class PlayActivity extends AppCompatActivity {
         btnPlay = (ImageView) findViewById(R.id.play_Music);
         switchButton();
 
-        clientName = (TextView) findViewById(R.id.textName);
+        //clientName = (TextView) findViewById(R.id.textName);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        if (navigationView != null) {
-            setupNavigationDrawerContent(navigationView);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TypedValue typedValueColorPrimaryDark = new TypedValue();
+        PlayActivity.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
+        final int colorPrimaryDark = typedValueColorPrimaryDark.data;
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(colorPrimaryDark);
         }
-        setupNavigationDrawerContent(navigationView);
 
        // receiveName();
         //mStatusTextView = new TextView(this);
@@ -116,7 +113,7 @@ public class PlayActivity extends AppCompatActivity {
         mVisualizer.setEnabled(true);
 
         //Info text
-        mStatusTextView.setText("Playing audio...");
+//        mStatusTextView.setText("Playing audio...");
     }
 
     public void receiveName(){
@@ -227,37 +224,5 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 
-    //Metodo para el navigation drawer
-    private void setupNavigationDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.item_navigation_drawer_home:
-                                menuItem.setChecked(true);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
-                            case R.id.item_navigation_drawer_search:
-                                menuItem.setChecked(true);
-                                Intent i1 = new Intent(PlayActivity.this, SearchActivity.class);
-                                startActivity(i1);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
-                            case R.id.item_navigation_drawer_playlist:
-                                menuItem.setChecked(true);
-                                Intent i2 = new Intent(PlayActivity.this, PlayListActivity.class);
-                                startActivity(i2);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
 
-                            case R.id.item_navigation_drawer_help_and_feedback:
-                                menuItem.setChecked(true);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
-                        }
-                        return true;
-                    }
-                });
-    }
 }

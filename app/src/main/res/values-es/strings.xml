@@ -6,6 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="home_activity">Home</string>
-    <string name="playlist_activity">Lista de Reproducción</string>
+    <string name="play_activity">Now Playing</string>
     <string name="search_activity">Búsqueda</string>
 </resources>

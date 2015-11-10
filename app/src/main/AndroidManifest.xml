@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlayActivity"
+        <activity android:name=".PlayListActivity"
             android:label="@string/home_activity">
         </activity>
         <activity
@@ -28,13 +28,13 @@
         </activity>
         <activity
             android:name=".SearchActivity"
-            android:parentActivityName="PlayActivity"
+            android:parentActivityName=".PlayListActivity"
             android:label="@string/search_activity">
         </activity>
         <activity
-            android:name=".PlayListActivity"
-            android:parentActivityName="PlayActivity"
-            android:label="@string/playlist_activity">
+            android:name=".PlayActivity"
+            android:parentActivityName="PlayListActivity"
+            android:label="@string/play_activity">
         </activity>
     </application>
 

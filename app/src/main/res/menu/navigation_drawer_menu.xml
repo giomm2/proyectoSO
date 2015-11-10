@@ -5,15 +5,12 @@
             android:checked="true"
             android:id="@+id/item_navigation_drawer_home"
             android:title="Home" />
-        <!--  android:icon="@drawable/ic_home_dr" -->
         <item
             android:id="@+id/item_navigation_drawer_search"
             android:title="Busqueda" />
-        <!-- android:icon="@drawable/ic_profile_dr" -->
         <item
             android:id="@+id/item_navigation_drawer_playlist"
-            android:title="Playlist" />
-        <!--    android:icon="@drawable/ic_challenge_dr" -->
+            android:title="NowPlaying" />
     </group>
     <item android:title="">
         <menu>
@@ -21,7 +18,6 @@
                 android:id="@+id/item_navigation_drawer_help_and_feedback"
                 android:title="Salir"
                 />
-            <!--    android:icon="@drawable/ic_sign_out" -->
 
         </menu>
     </item>

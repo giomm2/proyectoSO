@@ -46,7 +46,7 @@ public class LoadingActivity extends AppCompatActivity {
         public void onFinish() {
             Bundle b = getIntent().getExtras();
             b.putString("Name", b.getString("Name"));
-            Intent intent= new Intent(LoadingActivity.this,PlayActivity.class);
+            Intent intent= new Intent(LoadingActivity.this,PlayListActivity.class);
             intent.putExtras(b);
             startActivity(intent);
             LoadingActivity.this.finish();
