@@ -3,7 +3,7 @@
     package="com.example.geo_2.proyectoso" >
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -12,29 +12,34 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HomeActivity"
-            android:label="@string/home_activity">
+            android:label="@string/home_activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlayListActivity"
-            android:label="@string/home_activity">
+        <activity
+            android:name=".PlayListActivity"
+            android:label="@string/home_activity" >
         </activity>
         <activity
             android:name=".LoadingActivity"
-            android:label="@string/title_activity_loading">
+            android:label="@string/title_activity_loading" >
         </activity>
         <activity
             android:name=".SearchActivity"
-            android:parentActivityName=".PlayListActivity"
-            android:label="@string/search_activity">
+            android:label="@string/search_activity"
+            android:parentActivityName=".PlayListActivity" >
         </activity>
         <activity
             android:name=".PlayActivity"
-            android:parentActivityName="PlayListActivity"
-            android:label="@string/play_activity">
+            android:label="@string/play_activity"
+            android:parentActivityName=".PlayListActivity" >
+        </activity>
+        <activity
+            android:name=".MyPlaylistActivity"
+            android:parentActivityName=".PlayListActivity">
         </activity>
     </application>
 

@@ -81,6 +81,13 @@ public class PlayListActivity extends AppCompatActivity {
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
 
+                            case R.id.item_navigation_drawer_myplaylist:
+                                menuItem.setChecked(true);
+                                Intent i3 = new Intent(PlayListActivity.this, MyPlaylistActivity.class);
+                                startActivity(i3);
+                                drawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
+
                             case R.id.item_navigation_drawer_help_and_feedback:
                                 menuItem.setChecked(true);
                                 drawerLayout.closeDrawer(GravityCompat.START);
