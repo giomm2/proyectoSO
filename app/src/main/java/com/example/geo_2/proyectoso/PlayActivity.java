@@ -38,11 +38,9 @@ public class PlayActivity extends AppCompatActivity {
     private Visualizer mVisualizer;
     private LinearLayout mLinearLayout;
     private VisualizerView mVisualizerView;
-    private TextView mStatusTextView;
     private ImageView btnPlay;
     private boolean flag = true;
     private TextView clientName;
-    private ActionBar actionBar;
     Toolbar toolbar;
 
 
