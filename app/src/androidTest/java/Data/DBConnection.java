@@ -16,6 +16,7 @@ import Domain.Track;
  */
 public class DBConnection extends SQLiteOpenHelper{
     private String createTable = "CREATE TABLE playlist (id INTEGER PRIMARY KEY NOT NULL," + "track VARCHAR(50))";
+
     public DBConnection(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -23,7 +24,7 @@ public class DBConnection extends SQLiteOpenHelper{
     SQLiteDatabase helper;
 
     public DBConnection(Context context){
-        super(context, "soDB", null, 1);
+        super(context, "RockolaDB", null, 1);
         helper = getWritableDatabase();
     }
     @Override
@@ -39,7 +40,7 @@ public class DBConnection extends SQLiteOpenHelper{
         boolean flag = false;
         try{
             ContentValues val = new ContentValues();
-            val.put("id", track.getId());
+            val.put("ei", track.getId());
             val.put("track", track.getName());
             helper.insert("playlist",null,val);
             flag = true;

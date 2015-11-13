@@ -28,9 +28,12 @@
         android:text="Login"
         android:id="@+id/button"
         android:onClick="goPlay"
-        android:textSize="20dp"
+        android:textSize="17dp"
 
         android:layout_marginTop="44dp"
         android:layout_below="@+id/TxName"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/TxName"
+        android:layout_alignStart="@+id/TxName"
+        android:layout_alignRight="@+id/TxName"
+        android:layout_alignEnd="@+id/TxName" />
 </RelativeLayout>

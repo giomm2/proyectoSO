@@ -1,7 +1,6 @@
 package com.example.geo_2.proyectoso;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,29 +10,28 @@ import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 public class PlayActivity extends AppCompatActivity {
 
     private final String MEDIA_PATH = new String("storage/sdcard0/Download/owari-no-seraph-ending-full.mp3");
+    //private final String MEDIA_PATH = new String("storage/emulated/0/Download/Pumped Up Kicks - Foster the People.mp3");
     private static final float VISUALIZER_HEIGHT_DIP = 50f;
     //Your MediaPlayer
-    MediaPlayer mp;
+    private MediaPlayer mp;
     //Vizualization
     private Visualizer mVisualizer;
     private LinearLayout mLinearLayout;
@@ -42,6 +40,14 @@ public class PlayActivity extends AppCompatActivity {
     private boolean flag = true;
     private TextView clientName;
     Toolbar toolbar;
+    //Controles
+    private SeekBar sBar;
+    private TextView songDuration;
+    private double timeStart = 0;
+    private double finalTime = 0;
+    private int nextTime = 2000;
+    private int prevTime = 2000;
+    private Handler durationHan = new Handler();
 
 
     @Override
@@ -50,6 +56,10 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play);
 
         btnPlay = (ImageView) findViewById(R.id.play_Music);
+        sBar = (SeekBar) findViewById(R.id.seekBarPlay);
+        songDuration = (TextView) findViewById(R.id.TxtSDuration);
+        sBar.setMax((int) finalTime);
+        sBar.setClickable(false);
         switchButton();
 
         //clientName = (TextView) findViewById(R.id.textName);
@@ -67,18 +77,9 @@ public class PlayActivity extends AppCompatActivity {
 
        // receiveName();
         //mStatusTextView = new TextView(this);
-
-        //Create new LinearLayout ( because main.xml is empty )
-        mLinearLayout = (LinearLayout)findViewById(R.id.linear_layout);
-        //mLinearLayout.addView(mStatusTextView);
-
-        //set content view to new Layout that we create
-        //setContentView(mLinearLayout);
-
-        //start media player - like normal
+//start media player - like normal
         mp = new MediaPlayer();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
         try {
             mp.setDataSource(MEDIA_PATH); // set data source our URL defined
         } catch (IllegalArgumentException e) {
@@ -91,7 +92,6 @@ public class PlayActivity extends AppCompatActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         try {   //tell your player to go to prepare state
             mp.prepare();
         } catch (IllegalStateException e) {
@@ -103,15 +103,16 @@ public class PlayActivity extends AppCompatActivity {
         }
         //Start your stream / player
         mp.start();
-
         //setup your Vizualizer - call method
         setupVisualizerFxAndUI();
-
         //enable vizualizer
         mVisualizer.setEnabled(true);
-
         //Info text
 //        mStatusTextView.setText("Playing audio...");
+        //hacer layout para contener visualizador
+        mLinearLayout = (LinearLayout)findViewById(R.id.linear_layout);
+
+
     }
 
     public void receiveName(){
@@ -119,6 +120,54 @@ public class PlayActivity extends AppCompatActivity {
         String name = b.getString("Name");
         clientName.setText(name);
     }
+    //Metodo del visualizer
+    public void visualizerMusic(){
+
+    }
+
+    //Metodo Runnable que se encarga de reproducir canciones
+    private  Runnable upSeekBarTime = new Runnable(){
+        public void run(){
+            timeStart = mp.getCurrentPosition();
+            sBar.setProgress((int) timeStart);
+            double timeRemain = finalTime - timeStart;
+            songDuration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemain),
+                    TimeUnit.MILLISECONDS.toSeconds((long) timeRemain) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemain))));
+            durationHan.postDelayed(this, 100);
+        }
+    };
+    //Metodo play
+    public void playTrack(View view){
+        //mp.start();
+        timeStart = mp.getCurrentPosition();
+        sBar.setProgress((int) timeStart);
+        durationHan.postDelayed(upSeekBarTime, 100);
+        //visualizerMusic();
+    }
+
+    //Metodo pause
+    public void pauseTrack(View view){
+        mp.pause();
+    }
+
+    //Metodo previous track
+    public void prevTrack(View view){
+        if((timeStart + nextTime) <= finalTime){
+            timeStart = timeStart - prevTime;
+            mp.seekTo((int) timeStart);
+        }
+    }
+
+    //Metodo next track
+    public void nextTrack(View view){
+        if((timeStart - prevTime) > 0){
+            timeStart = timeStart - prevTime;
+            mp.seekTo((int) timeStart);
+        }
+    }
+
+
 
     //Metodo que hace el cambio del icono del boton play/pause
     public void switchButton(){
@@ -127,9 +176,11 @@ public class PlayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (flag) {
                     btnPlay.setImageResource(R.mipmap.ic_pause);
+                    //playTrack(v);
                     flag = false;
                 } else {
                     btnPlay.setImageResource(R.mipmap.ic_play);
+                    //pauseTrack(v);
                     flag = true;
                 }
             }

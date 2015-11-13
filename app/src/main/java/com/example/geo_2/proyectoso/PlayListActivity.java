@@ -42,8 +42,8 @@ public class PlayListActivity extends AppCompatActivity {
         }
         setupNavigationDrawerContent(navigationView);
 
-        String[] song = new String[] { "1. Civil War", "2. El taxi", "3. Hello", "4. Counting Stars",
-                "5. Sorry Latino Remix", "6. Sugar", "7. Locked Away"};
+        String[] song = new String[] { "1. Track01", "2. Track02", "3. Track03", "4. Track04",
+                "5. Track05", "6. Track06", "7. Track07"};
         ArrayList<String> SongList = new ArrayList<String>();
         SongList.addAll(Arrays.asList(song));
 
@@ -56,6 +56,18 @@ public class PlayListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+       // Intent i = new Intent(HomeActivity.this, RetosActivity.class);
+       // startActivity(i);
+        return super.onOptionsItemSelected(item);
     }
     //Metodo para el navigation drawer
     private void setupNavigationDrawerContent(NavigationView navigationView) {

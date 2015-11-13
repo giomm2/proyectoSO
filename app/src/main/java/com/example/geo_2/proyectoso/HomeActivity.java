@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class HomeActivity extends Activity {
 
@@ -23,13 +24,16 @@ public class HomeActivity extends Activity {
     }
 
     public void goPlay(View v){
-        Bundle b = new Bundle();
-        b.putString("Name", txtName.getText().toString());
-        Intent i = new Intent(HomeActivity.this, LoadingActivity.class);
-        i.putExtras(b);
-        startActivity(i);
-
-        HomeActivity.this.finish();
+        if(txtName.getText().toString().trim().length() > 0) {
+            Bundle b = new Bundle();
+            b.putString("Name", txtName.getText().toString());
+            Intent i = new Intent(HomeActivity.this, LoadingActivity.class);
+            i.putExtras(b);
+            startActivity(i);
+            HomeActivity.this.finish();
+        }else{
+            Toast.makeText(getApplicationContext(),"Please enter your Name", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

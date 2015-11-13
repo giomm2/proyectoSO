@@ -46,6 +46,7 @@
             android:src="@mipmap/ic_previous_track"
             app:cb_color="#3F51B5"
             app:cb_pressedRingWidth="4dp"
+            android:onClick="prevTrack"
             android:layout_alignBottom="@+id/play_Music"
             android:layout_toLeftOf="@+id/play_Music"
             android:layout_toStartOf="@+id/play_Music"
@@ -58,6 +59,7 @@
             android:src="@mipmap/ic_next_track"
             app:cb_color="#3F51B5"
             app:cb_pressedRingWidth="4dp"
+            android:onClick="nextTrack"
             android:layout_alignBottom="@+id/play_Music"
             android:layout_toRightOf="@+id/play_Music"
             android:layout_toEndOf="@+id/play_Music"
@@ -80,7 +82,7 @@
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
+        android:id="@+id/seekBarPlay"
         android:layout_above="@+id/linear_layout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -102,7 +104,7 @@
         android:id="@+id/chkSongAdded"
         android:layout_marginBottom="30dp"
         android:checked="false"
-        android:layout_above="@+id/seekBar"
+        android:layout_above="@+id/seekBarPlay"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="31dp"
@@ -131,6 +133,15 @@
         android:layout_toEndOf="@+id/TxtIdSong"
         android:layout_marginLeft="45dp"
         android:layout_marginStart="45dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Duracion"
+        android:id="@+id/TxtSDuration"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
 
