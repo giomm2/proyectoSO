@@ -28,11 +28,10 @@ import java.util.concurrent.TimeUnit;
 public class PlayActivity extends AppCompatActivity {
 
     private final String MEDIA_PATH = new String("storage/sdcard0/Download/owari-no-seraph-ending-full.mp3");
-    //private final String MEDIA_PATH = new String("storage/emulated/0/Download/Pumped Up Kicks - Foster the People.mp3");
     private static final float VISUALIZER_HEIGHT_DIP = 50f;
-    //Your MediaPlayer
-    private MediaPlayer mp;
-    //Vizualization
+    //media player
+    MediaPlayer mp;
+    //Visualization
     private Visualizer mVisualizer;
     private LinearLayout mLinearLayout;
     private VisualizerView mVisualizerView;
@@ -64,6 +63,9 @@ public class PlayActivity extends AppCompatActivity {
 
         //clientName = (TextView) findViewById(R.id.textName);
 
+        //hacer layout para contener visualizador
+        mLinearLayout = (LinearLayout)findViewById(R.id.linear_layout);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -76,8 +78,6 @@ public class PlayActivity extends AppCompatActivity {
         }
 
        // receiveName();
-        //mStatusTextView = new TextView(this);
-//start media player - like normal
         mp = new MediaPlayer();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
@@ -107,12 +107,6 @@ public class PlayActivity extends AppCompatActivity {
         setupVisualizerFxAndUI();
         //enable vizualizer
         mVisualizer.setEnabled(true);
-        //Info text
-//        mStatusTextView.setText("Playing audio...");
-        //hacer layout para contener visualizador
-        mLinearLayout = (LinearLayout)findViewById(R.id.linear_layout);
-
-
     }
 
     public void receiveName(){
