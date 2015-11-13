@@ -1,14 +1,24 @@
 package com.example.geo_2.proyectoso;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyPlaylistActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+    private ListView myListView;
+    private ArrayAdapter<String> myListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,5 +34,19 @@ public class MyPlaylistActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
+
+        myListView = (ListView) findViewById(R.id.myList);
+        ArrayList<String> myList = new ArrayList<String>();
+        //myList.addAll(Arrays.asList());
+
+        myListAdapter = new ArrayAdapter<String>(this, R.layout.list_element, myList);
+        myListView.setAdapter( myListAdapter );
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MyPlaylistActivity.this, PlayActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

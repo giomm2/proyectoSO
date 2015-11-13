@@ -21,13 +21,16 @@ import android.widget.TextView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
 public class PlayActivity extends AppCompatActivity {
 
-    private final String MEDIA_PATH = new String("storage/sdcard0/Download/owari-no-seraph-ending-full.mp3");
+    //private final String MEDIA_PATH = new String("storage/sdcard0/Download/owari-no-seraph-ending-full.mp3");
+    private final String MEDIA_PATH = new String("storage/emulated/0/Download/Maluma_-_Addicted.mp3");
     private static final float VISUALIZER_HEIGHT_DIP = 50f;
     //media player
     MediaPlayer mp;
@@ -38,6 +41,8 @@ public class PlayActivity extends AppCompatActivity {
     private ImageView btnPlay;
     private boolean flag = true;
     private TextView clientName;
+    private TextView tSongName;
+    private TextView tIdSong;
     Toolbar toolbar;
     //Controles
     private SeekBar sBar;
@@ -46,7 +51,7 @@ public class PlayActivity extends AppCompatActivity {
     private double finalTime = 0;
     private int nextTime = 2000;
     private int prevTime = 2000;
-    private Handler durationHan = new Handler();
+    private final Handler durationHan = new Handler();
 
 
     @Override
@@ -54,11 +59,17 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         ///
+        mp = new MediaPlayer().create(this, R.raw.locked_away);
+        //mp = new MediaPlayer();
+
+        tIdSong = (TextView) findViewById(R.id.TxtIdSong);
+        tSongName = (TextView) findViewById(R.id.TxtIdSong);
         btnPlay = (ImageView) findViewById(R.id.play_Music);
-        sBar = (SeekBar) findViewById(R.id.seekBarPlay);
         songDuration = (TextView) findViewById(R.id.TxtSDuration);
-        sBar.setMax((int) finalTime);
-        sBar.setClickable(false);
+        sBar = (SeekBar) findViewById(R.id.seekBarPlay);
+        sBar.setMax(mp.getDuration());
+        sBar.setClickable(true);
+
         switchButton();
 
         //clientName = (TextView) findViewById(R.id.textName);
@@ -69,16 +80,13 @@ public class PlayActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         PlayActivity.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
-
        // receiveName();
-        mp = new MediaPlayer();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mp.setDataSource(MEDIA_PATH); // set data source our URL defined
@@ -102,11 +110,11 @@ public class PlayActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //Start your stream / player
-        mp.start();
-        //setup your Vizualizer - call method
-        setupVisualizerFxAndUI();
+       // mp.start();
+
+       // setupVisualizerFxAndUI();
         //enable vizualizer
-        mVisualizer.setEnabled(true);
+       // mVisualizer.setEnabled(true);
     }
 
     public void receiveName(){
@@ -115,7 +123,7 @@ public class PlayActivity extends AppCompatActivity {
         clientName.setText(name);
     }
     //Metodo del visualizer
-    public void visualizerMusic(){
+    public void pruebaSeekBar(){
 
     }
 
@@ -123,8 +131,8 @@ public class PlayActivity extends AppCompatActivity {
     private  Runnable upSeekBarTime = new Runnable(){
         public void run(){
             timeStart = mp.getCurrentPosition();
-            sBar.setProgress((int) timeStart);
-            double timeRemain = finalTime - timeStart;
+            sBar.setProgress(mp.getCurrentPosition());
+            double timeRemain = timeStart - finalTime;
             songDuration.setText(String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes((long) timeRemain),
                     TimeUnit.MILLISECONDS.toSeconds((long) timeRemain) -
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemain))));
@@ -133,11 +141,12 @@ public class PlayActivity extends AppCompatActivity {
     };
     //Metodo play
     public void playTrack(View view){
-        //mp.start();
-        timeStart = mp.getCurrentPosition();
-        sBar.setProgress((int) timeStart);
+        mp.start();
         durationHan.postDelayed(upSeekBarTime, 100);
-        //visualizerMusic();
+        //setup your Vizualizer - call method
+        setupVisualizerFxAndUI();
+        //enable vizualizer
+        mVisualizer.setEnabled(true);
     }
 
     //Metodo pause
@@ -161,8 +170,6 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 
-
-
     //Metodo que hace el cambio del icono del boton play/pause
     public void switchButton(){
         btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -170,11 +177,11 @@ public class PlayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (flag) {
                     btnPlay.setImageResource(R.mipmap.ic_pause);
-                    //playTrack(v);
+                    playTrack(v);
                     flag = false;
                 } else {
                     btnPlay.setImageResource(R.mipmap.ic_play);
-                    //pauseTrack(v);
+                    pauseTrack(v);
                     flag = true;
                 }
             }
@@ -217,7 +224,6 @@ public class PlayActivity extends AppCompatActivity {
 
         private void init() {
             mBytes = null;
-
             mForePaint.setStrokeWidth(1f);
             mForePaint.setAntiAlias(true);
             mForePaint.setColor(Color.rgb(0, 128, 255));
@@ -258,7 +264,6 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         if (isFinishing() && mp != null) {
             mVisualizer.release();
             //mEqualizer.release();
@@ -266,6 +271,4 @@ public class PlayActivity extends AppCompatActivity {
             mp = null;
         }
     }
-
-
 }

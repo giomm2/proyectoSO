@@ -21,7 +21,7 @@ public class PlayListActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
-    private ListView listView;
+    private ListView listViewServer;
     private ArrayAdapter<String> listAdapter ;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class PlayListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_list);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        listView = (ListView) findViewById( R.id.SongsList);
+        listViewServer = (ListView) findViewById( R.id.SongsList);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
@@ -48,8 +48,8 @@ public class PlayListActivity extends AppCompatActivity {
         SongList.addAll(Arrays.asList(song));
 
         listAdapter = new ArrayAdapter<String>(this, R.layout.list_element, SongList);
-        listView.setAdapter( listAdapter );
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewServer.setAdapter( listAdapter );
+        listViewServer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(PlayListActivity.this, PlayActivity.class);
