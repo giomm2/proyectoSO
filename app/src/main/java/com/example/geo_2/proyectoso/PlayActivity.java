@@ -53,7 +53,7 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-
+        ///
         btnPlay = (ImageView) findViewById(R.id.play_Music);
         sBar = (SeekBar) findViewById(R.id.seekBarPlay);
         songDuration = (TextView) findViewById(R.id.TxtSDuration);
