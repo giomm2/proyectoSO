@@ -10,10 +10,6 @@ import java.util.ArrayList;
 
 import Domain.Track;
 
-
-/**
- * Created by Danicormu on 10/11/2015.
- */
 public class DBConnection extends SQLiteOpenHelper{
     private String createTable = "CREATE TABLE playlist (id INTEGER PRIMARY KEY NOT NULL," + "track VARCHAR(50))";
 

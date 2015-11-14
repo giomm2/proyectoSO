@@ -29,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity {
 
-    //private final String MEDIA_PATH = new String("storage/sdcard0/Download/owari-no-seraph-ending-full.mp3");
-    private final String MEDIA_PATH = new String("storage/emulated/0/Download/Maluma_-_Addicted.mp3");
+    private final String MEDIA_PATH = new String("storage/sdcard0/Download/owari-no-seraph-ending-full.mp3");
+    //private final String MEDIA_PATH = new String("storage/emulated/0/Download/Maluma_-_Addicted.mp3");
     private static final float VISUALIZER_HEIGHT_DIP = 50f;
     //media player
     MediaPlayer mp;
@@ -59,16 +59,13 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         ///
-        mp = new MediaPlayer().create(this, R.raw.locked_away);
-        //mp = new MediaPlayer();
+        //mp = new MediaPlayer().create(this, R.raw.locked_away);
+        mp = new MediaPlayer();
 
         tIdSong = (TextView) findViewById(R.id.TxtIdSong);
         tSongName = (TextView) findViewById(R.id.TxtIdSong);
         btnPlay = (ImageView) findViewById(R.id.play_Music);
         songDuration = (TextView) findViewById(R.id.TxtSDuration);
-        sBar = (SeekBar) findViewById(R.id.seekBarPlay);
-        sBar.setMax(mp.getDuration());
-        sBar.setClickable(true);
 
         switchButton();
 
@@ -109,6 +106,9 @@ public class PlayActivity extends AppCompatActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        sBar = (SeekBar) findViewById(R.id.seekBarPlay);
+        sBar.setMax(mp.getDuration());
+        sBar.setClickable(true);
         //Start your stream / player
        // mp.start();
 
