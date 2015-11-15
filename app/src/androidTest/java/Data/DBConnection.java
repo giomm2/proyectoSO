@@ -9,9 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 import Domain.Track;
+import Domain.User;
 
 public class DBConnection extends SQLiteOpenHelper{
-    private String createTable = "CREATE TABLE playlist (id INTEGER PRIMARY KEY NOT NULL," + "track VARCHAR(50))";
+
+    private String createTable = "CREATE TABLE playlist (id INTEGER PRIMARY KEY NOT NULL," + "track VARCHAR(50), id_user INTEGER," +
+            "FOREIGN KEY(id_user) REFERENCES user(id_user))";
+    private String createTableUser = "CREATE TABLE user (id_user INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT)";
 
     public DBConnection(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -25,7 +29,9 @@ public class DBConnection extends SQLiteOpenHelper{
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(createTable);
+        db.execSQL(createTableUser);
     }
 
     @Override
@@ -36,7 +42,7 @@ public class DBConnection extends SQLiteOpenHelper{
         boolean flag = false;
         try{
             ContentValues val = new ContentValues();
-            val.put("ei", track.getId());
+            val.put("id", track.getId());
             val.put("track", track.getName());
             helper.insert("playlist",null,val);
             flag = true;
@@ -75,5 +81,20 @@ public class DBConnection extends SQLiteOpenHelper{
             e.printStackTrace();
         }
         return list;
+    }
+
+    public boolean addUser(User user){
+        boolean flag = false;
+        try{
+            ContentValues value = new ContentValues();
+            value.put("id_user", user.getId());
+            value.put("name", user.getName());
+            helper.insert("user", null, value);
+            flag = true;
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return flag;
     }
 }
