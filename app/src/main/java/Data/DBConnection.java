@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -13,25 +15,23 @@ import Domain.User;
 
 public class DBConnection extends SQLiteOpenHelper{
 
-    private String createTable = "CREATE TABLE playlist (id INTEGER PRIMARY KEY NOT NULL," + "track VARCHAR(50), id_user INTEGER," +
+     public String sqlCreateTableList = "CREATE TABLE playlist (id INTEGER PRIMARY KEY NOT NULL," + "track VARCHAR(50), id_user INTEGER," +
             "FOREIGN KEY(id_user) REFERENCES user(id_user))";
-    private String createTableUser = "CREATE TABLE user (id_user INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "name TEXT)";
-
-    public DBConnection(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
+     public String sqlCreateTableUser = "CREATE TABLE user (id_user INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "username TEXT NOT NULL UNIQUE)";
 
     SQLiteDatabase helper;
 
     public DBConnection(Context context){
-        super(context, "RockolaDB", null, 1);
+        super(context, "RockolaDB.db", null, 1);
         helper = getWritableDatabase();
+        Log.d("///////DATABASE ROCKOLA SO", "DATABASE....----.....CREATED" );
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        db.execSQL(createTable);
-        db.execSQL(createTableUser);
+        db.execSQL(sqlCreateTableList);
+        Log.d("////////TABLA PLAYLIST", "TABLE CREATED");
+        db.execSQL(sqlCreateTableUser);
+        Log.d("///////TABLA USER CREATED", "TABLE CREATED");
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DBConnection extends SQLiteOpenHelper{
             ContentValues val = new ContentValues();
             val.put("id", track.getId());
             val.put("track", track.getName());
-            helper.insert("playlist",null,val);
+            helper.insert("playlist", null, val);
             flag = true;
         }
         catch (Exception ex){
@@ -83,18 +83,42 @@ public class DBConnection extends SQLiteOpenHelper{
         return list;
     }
 
+    public String selectUser(String username){
+        String usuario = "";
+        String query ="select username from user where username = " + username;
+        try{
+            Cursor cursor = helper.rawQuery(query, null);
+            cursor.moveToFirst();
+            usuario = cursor.getString(0);
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("Fallo:", "$$$$$$$$$$$$$$$$$$$$$$$---$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Problem" );
+        }
+        return usuario;
+    }
+
     public boolean addUser(User user){
         boolean flag = false;
         try{
-            ContentValues value = new ContentValues();
-            value.put("id_user", user.getId());
-            value.put("name", user.getName());
-            helper.insert("user", null, value);
-            flag = true;
+            Cursor cur = helper.rawQuery("Select * from user where username= '"+ user +"';", null);
+
+            if(cur.moveToFirst() == false){
+                ContentValues value = new ContentValues();
+                value.put("id_user", user.getId());
+                value.put("username", user.getName());
+                helper.insert("user", null, value);
+                flag = true;
+                Log.d("///////////INSERTADO", "SI SE INSERTO BIEN EL USUARIO");
+            }else {
+                Log.d("YAAAA", "USUARIOOOO SI EXISTEEEEEE$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            }
+
         }
         catch (Exception ex){
             ex.printStackTrace();
         }
         return flag;
     }
+
+
 }

@@ -9,9 +9,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import Data.DBConnection;
+import Domain.User;
+
 public class HomeActivity extends Activity {
 
     private EditText txtName;
+    private User us = null;
+    private DBConnection dbConn;
+    private String username;
 
 
     @Override
@@ -20,19 +26,40 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         txtName = (EditText) findViewById(R.id.TxName);
+        dbConn = new DBConnection(HomeActivity.this);
+
 
     }
 
     public void goPlay(View v){
+        String name;
         if(txtName.getText().toString().trim().length() > 0) {
             Bundle b = new Bundle();
             b.putString("Name", txtName.getText().toString());
             Intent i = new Intent(HomeActivity.this, LoadingActivity.class);
             i.putExtras(b);
             startActivity(i);
+            saveUser(txtName.getText().toString());
+            username = txtName.getText().toString();
             HomeActivity.this.finish();
+         //   name = dbConn.selectUser(txtName.getText().toString());
+          //  Toast.makeText(getApplicationContext(),name + "Bienvenido", Toast.LENGTH_SHORT).show();
+
         }else{
             Toast.makeText(getApplicationContext(),"Please enter your Name", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    //Metodo que guarda usuario
+    public void saveUser(String name){
+        try {
+            us = new User();
+            us.setName(name);
+            dbConn.addUser(us);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 

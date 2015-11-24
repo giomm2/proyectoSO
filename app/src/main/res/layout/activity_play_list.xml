@@ -6,22 +6,16 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="@bool/fitsSystemWindows">
 
- <!--   <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textName"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="" /> -->
-
     <ListView
-
-        android:paddingTop="55dp"
         android:id="@+id/SongsList"
+        android:paddingTop="55dp"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:color/transparent"
+
+        >
     </ListView>
 
     <FrameLayout

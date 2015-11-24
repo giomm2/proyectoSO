@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/name_song"
+        android:id="@+id/title_song"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Track"
@@ -17,11 +17,19 @@
         android:textStyle="bold"
         android:layout_marginTop="15dp" />
 
-    <Button
-        android:id="@+id/button_del"
+<!--    <Button
+        android:id="@+id/button_Add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" - "
+        android:text=" + "
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+    -->
+    <CheckBox
+        android:id="@+id/chk_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
 

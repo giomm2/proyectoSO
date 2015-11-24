@@ -14,6 +14,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Adapters.MyPlayListAdapter;
+
 public class MyPlaylistActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -38,7 +40,7 @@ public class MyPlaylistActivity extends AppCompatActivity {
         myListView = (ListView) findViewById(R.id.myList);
         ArrayList<String> myList = new ArrayList<String>();
         //myList.addAll(Arrays.asList());
-
+        MyPlayListAdapter myAd = new MyPlayListAdapter(myList, this);
         myListAdapter = new ArrayAdapter<String>(this, R.layout.list_element, myList);
         myListView.setAdapter( myListAdapter );
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
