@@ -31,7 +31,7 @@ public class DBConnection extends SQLiteOpenHelper{
         db.execSQL(sqlCreateTableList);
         Log.d("////////TABLA PLAYLIST", "TABLE CREATED");
         db.execSQL(sqlCreateTableUser);
-        Log.d("///////TABLA USER CREATED", "TABLE CREATED");
+        Log.d("///TABLA USER CREATED", "TABLE CREATED");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class DBConnection extends SQLiteOpenHelper{
 
             if(cur.moveToFirst() == false){
                 ContentValues value = new ContentValues();
-                value.put("id_user", user.getId());
+                //value.put("id_user", user.getId());
                 value.put("username", user.getName());
                 helper.insert("user", null, value);
                 flag = true;
