@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
+import Data.DBConnection;
 import Domain.Track;
 
 public class PlayListActivity extends AppCompatActivity{
@@ -42,7 +43,7 @@ public class PlayListActivity extends AppCompatActivity{
     //private ArrayList<Track> songList = new ArrayList<Track>();
     //private MyAdapter myAdapter;
     private ArrayAdapter<String> adapterSend;
-   // private DBConnection dbConn;
+    private DBConnection dbConn;
     //CustomAdapter customAdapter = null;
     MyCustomAdapter dataAdapter = null;
 
@@ -76,11 +77,12 @@ public class PlayListActivity extends AppCompatActivity{
 
     private void displayListView() {
 
-        //Array list of countries
+        //Array list of tracks
         ArrayList<Track> TrackList = new ArrayList<Track>();
-        Track tr = new Track();
-        for(int i =0; i < 15; i++){
-            TrackList.add(i, tr );
+        for(int i =0; i < 10; i++){
+            Track tr = new Track();
+            tr.setName("cancion "+ i);
+            TrackList.add(tr);
         }
 
         //create an ArrayAdaptar from the String Array
@@ -182,6 +184,7 @@ public class PlayListActivity extends AppCompatActivity{
                     if(track.isSelected()){
                         responseText.append("\n" + track.getName());
                     }
+                    //dbConn.addSong(track.getName(),username);
                 }
 
                 Toast.makeText(getApplicationContext(),

@@ -15,9 +15,9 @@ import Domain.User;
 
 public class DBConnection extends SQLiteOpenHelper{
 
-     public String sqlCreateTableList = "CREATE TABLE playlist (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "track VARCHAR(50), id_user INTEGER," +
+     public String sqlCreateTableList = "CREATE TABLE IF NOT EXISTS playlist (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "track VARCHAR(50), id_user INTEGER," +
             "FOREIGN KEY(id_user) REFERENCES user(id_user))";
-     public String sqlCreateTableUser = "CREATE TABLE user (id_user INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "username TEXT NOT NULL UNIQUE)";
+     public String sqlCreateTableUser = "CREATE TABLE  IF NOT EXISTS user (id_user INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "username TEXT NOT NULL UNIQUE)";
 
     SQLiteDatabase helper;
 
@@ -43,7 +43,6 @@ public class DBConnection extends SQLiteOpenHelper{
         boolean flag = false;
         try{
             ContentValues val = new ContentValues();
-            //val.put("id", track.getId());
             val.put("track", track);
             val.put("id_user", callIdUser(user));
             helper.insert("playlist", null, val);
@@ -109,7 +108,6 @@ public class DBConnection extends SQLiteOpenHelper{
             Cursor cur = helper.rawQuery("Select * from user where username= '"+ user +"';", null);
             if(cur.moveToFirst() == false){
                 ContentValues value = new ContentValues();
-                //value.put("id_user", user.getId());
                 value.put("username", user.getName());
                 helper.insert("user", null, value);
                 flag = true;
