@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import Data.DBConnection;
+import Domain.Track;
 import Domain.User;
 
 public class HomeActivity extends Activity {
@@ -27,24 +28,26 @@ public class HomeActivity extends Activity {
 
         txtName = (EditText) findViewById(R.id.TxName);
         dbConn = new DBConnection(HomeActivity.this);
-
+        username = txtName.getText().toString();
 
     }
 
     public void goPlay(View v){
         String name;
         if(txtName.getText().toString().trim().length() > 0) {
+            saveUser(username);
             Bundle b = new Bundle();
             b.putString("Name", txtName.getText().toString());
+            b.putInt("ID_USER", dbConn.callIdUser(txtName.getText().toString()));
             Intent i = new Intent(HomeActivity.this, LoadingActivity.class);
             i.putExtras(b);
             startActivity(i);
-            saveUser(txtName.getText().toString());
-            username = txtName.getText().toString();
+
+           //saveSong(txtName.getText().toString());
+
             HomeActivity.this.finish();
          //   name = dbConn.selectUser(txtName.getText().toString());
           //  Toast.makeText(getApplicationContext(),name + "Bienvenido", Toast.LENGTH_SHORT).show();
-
         }else{
             Toast.makeText(getApplicationContext(),"Please enter your Name", Toast.LENGTH_SHORT).show();
         }

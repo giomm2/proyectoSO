@@ -37,18 +37,17 @@ public class MyPlaylistActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
 
+//        String[] receiveArray = b.getStringArray("songSelected");
         myListView = (ListView) findViewById(R.id.myList);
         ArrayList<String> myList = new ArrayList<String>();
-        //myList.addAll(Arrays.asList());
-        MyPlayListAdapter myAd = new MyPlayListAdapter(myList, this);
-        myListAdapter = new ArrayAdapter<String>(this, R.layout.list_element, myList);
-        myListView.setAdapter( myListAdapter );
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyPlaylistActivity.this, PlayActivity.class);
-                startActivity(intent);
-            }
-        });
+
+  //      myListAdapter = new ArrayAdapter<String>(this, R.layout.list_element, receiveArray);
+        myListView.setAdapter(myListAdapter);
+
+    }
+
+    public void receiverMarked(){
+
+
     }
 }

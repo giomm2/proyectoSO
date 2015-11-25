@@ -15,13 +15,10 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-
         img=(ImageView)findViewById(R.id.img1);
-
         ClsAnimation();
         contNumber.start();
     }
-
 
     private void ClsAnimation(){
 
@@ -29,30 +26,25 @@ public class LoadingActivity extends AppCompatActivity {
         animate= AnimationUtils.loadAnimation(this,R.anim.loading);
         animate.reset();
         img.startAnimation(animate);
-
-
     }
+
     CountDownTimer contNumber = new CountDownTimer(4000, 1000){
 
         @Override
         public void onTick(long millisUntilFinished){
-
-
         }
-
-
 
         @Override
         public void onFinish() {
             Bundle b = getIntent().getExtras();
             b.putString("Name", b.getString("Name"));
+            b.putInt("ID_USER", b.getInt("ID_USER"));
             Intent intent= new Intent(LoadingActivity.this,PlayListActivity.class);
             intent.putExtras(b);
             startActivity(intent);
-            LoadingActivity.this.finish();
+            LoadingActivity.this.finish();           
+
         }
-
-
         };
 
 }

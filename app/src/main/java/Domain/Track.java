@@ -7,10 +7,12 @@ public class Track {
 
     private int id;
     private String name;
+    private boolean selected = false;
 
-    public Track(int id, String name){
+    public Track(String name, boolean selected){
         this.id = id;
         this.name = name;
+        this.setSelected(selected);
     }
     public Track(){
     }
@@ -29,5 +31,13 @@ public class Track {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

@@ -15,7 +15,7 @@ import Domain.User;
 
 public class DBConnection extends SQLiteOpenHelper{
 
-     public String sqlCreateTableList = "CREATE TABLE playlist (id INTEGER PRIMARY KEY NOT NULL," + "track VARCHAR(50), id_user INTEGER," +
+     public String sqlCreateTableList = "CREATE TABLE playlist (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "track VARCHAR(50), id_user INTEGER," +
             "FOREIGN KEY(id_user) REFERENCES user(id_user))";
      public String sqlCreateTableUser = "CREATE TABLE user (id_user INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + "username TEXT NOT NULL UNIQUE)";
 
@@ -38,12 +38,14 @@ public class DBConnection extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public boolean addSong(Track track){
+    // Metodo que agrega canciones
+    public boolean addSong(String track, String user){
         boolean flag = false;
         try{
             ContentValues val = new ContentValues();
-            val.put("id", track.getId());
-            val.put("track", track.getName());
+            //val.put("id", track.getId());
+            val.put("track", track);
+            val.put("id_user", callIdUser(user));
             helper.insert("playlist", null, val);
             flag = true;
         }
@@ -53,6 +55,22 @@ public class DBConnection extends SQLiteOpenHelper{
         return flag;
     }
 
+    // Metodo que captura el id del usuario
+    public int callIdUser(String user){
+        int usuario=0;
+        String query ="select id_user from user where username = '"+user+"'";
+            try{
+                Cursor cursor = helper.rawQuery(query, null);
+                cursor.moveToFirst();
+                usuario = cursor.getInt(0);
+            }catch (Exception e){
+                e.printStackTrace();
+                Log.e("Fallo:", "$$$$$$$$$$$$$$$$$$$$$$$---$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Problem" );
+            }
+        return usuario;
+    }
+
+    // Metodo que elimina la cancion
     public boolean deleteSong(Track track){
         boolean flag = false;
         try {
@@ -64,6 +82,7 @@ public class DBConnection extends SQLiteOpenHelper{
         return flag;
     }
 
+    //Metodo que trae una lista de canciones
     public ArrayList<Track> getPlayList() {
         ArrayList<Track> list = new ArrayList<Track>();
         String query = "select * from playlist";
@@ -83,25 +102,11 @@ public class DBConnection extends SQLiteOpenHelper{
         return list;
     }
 
-    public String selectUser(String username){
-        String usuario = "";
-        String query ="select username from user where username = " + username;
-        try{
-            Cursor cursor = helper.rawQuery(query, null);
-            cursor.moveToFirst();
-            usuario = cursor.getString(0);
-        }catch (Exception e){
-            e.printStackTrace();
-            Log.e("Fallo:", "$$$$$$$$$$$$$$$$$$$$$$$---$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Problem" );
-        }
-        return usuario;
-    }
-
+    // Metodo que agrega un usuario
     public boolean addUser(User user){
         boolean flag = false;
         try{
             Cursor cur = helper.rawQuery("Select * from user where username= '"+ user +"';", null);
-
             if(cur.moveToFirst() == false){
                 ContentValues value = new ContentValues();
                 //value.put("id_user", user.getId());
@@ -112,7 +117,6 @@ public class DBConnection extends SQLiteOpenHelper{
             }else {
                 Log.d("YAAAA", "USUARIOOOO SI EXISTEEEEEE$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             }
-
         }
         catch (Exception ex){
             ex.printStackTrace();

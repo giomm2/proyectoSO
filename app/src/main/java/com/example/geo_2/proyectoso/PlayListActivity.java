@@ -1,10 +1,12 @@
 package com.example.geo_2.proyectoso;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,27 +15,36 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.util.SparseBooleanArray;
+import android.widget.ArrayAdapter;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import Adapters.MyAdapter;
-import Data.SocketConnection;
+import Domain.Track;
 
 public class PlayListActivity extends AppCompatActivity{
 
 
     private ActionBar actionBar;
     private Toolbar toolbar;
+    private int idUser;
+    private String username;
     private DrawerLayout drawerLayout;
     private ListView listViewServer;
-    private ArrayList<String> songList = new ArrayList<String>();
-    private MyAdapter myAdapter;
+    //private ArrayList<Track> songList = new ArrayList<Track>();
+    //private MyAdapter myAdapter;
+    private ArrayAdapter<String> adapterSend;
+   // private DBConnection dbConn;
+    //CustomAdapter customAdapter = null;
+    MyCustomAdapter dataAdapter = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +52,15 @@ public class PlayListActivity extends AppCompatActivity{
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
+
+        Bundle b = getIntent().getExtras();
+        idUser =  b.getInt("ID_USER");
+        username = b.getString("Name");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {
@@ -54,31 +68,167 @@ public class PlayListActivity extends AppCompatActivity{
         }
         setupNavigationDrawerContent(navigationView);
 
-        myAdapter = new MyAdapter(PlayListActivity.this,R.layout.list_row , songList);
-        listViewServer = (ListView) findViewById( R.id.SongsList);
-        listViewServer.setItemsCanFocus(false);
-        listViewServer.setAdapter(myAdapter);
-        listViewServer.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                Log.i("List View Clicked", "**********");
-                Toast.makeText(PlayListActivity.this,
-                        "Click:" + position, Toast.LENGTH_LONG)
-                        .show();
-                Intent intent = new Intent(PlayListActivity.this, PlayActivity.class);
-                startActivity(intent);
+
+        //fillListView();
+        displayListView();
+        checkButtonClick();
+    }
+
+    private void displayListView() {
+
+        //Array list of countries
+        ArrayList<Track> TrackList = new ArrayList<Track>();
+        Track tr = new Track();
+        for(int i =0; i < 15; i++){
+            TrackList.add(i, tr );
+        }
+
+        //create an ArrayAdaptar from the String Array
+        dataAdapter = new MyCustomAdapter(this,
+                R.layout.list_row, TrackList);
+        ListView listView = (ListView) findViewById(R.id.SongsList);
+        // Assign adapter to ListView
+        listView.setAdapter(dataAdapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // When clicked, show a toast with the TextView text
+                Track track = (Track) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(),
+                        "Clicked on Row: " + track.getName(),
+                        Toast.LENGTH_LONG).show();
             }
         });
 
-        fillListView();
     }
 
+    private class MyCustomAdapter extends ArrayAdapter<Track> {
+
+        private ArrayList<Track> TrackList;
+
+        public MyCustomAdapter(Context context, int textViewResourceId,
+                               ArrayList<Track> TrackList) {
+            super(context, textViewResourceId, TrackList);
+            this.TrackList = new ArrayList<Track>();
+            this.TrackList.addAll(TrackList);
+        }
+
+        private class ViewHolder {
+            TextView title;
+            CheckBox checkbox;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder = null;
+            Log.v("ConvertView", String.valueOf(position));
+
+            if (convertView == null) {
+                LayoutInflater vi = (LayoutInflater)getSystemService(
+                        Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.list_row, null);
+
+                holder = new ViewHolder();
+                holder.title = (TextView) convertView.findViewById(R.id.title_song);
+                holder.checkbox = (CheckBox) convertView.findViewById(R.id.chk_add);
+                convertView.setTag(holder);
+
+                holder.checkbox.setOnClickListener( new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v ;
+                        Track track = (Track) cb.getTag();
+                        Toast.makeText(getApplicationContext(),
+                                "Clicked on Checkbox: " + cb.getText() +
+                                        " is " + cb.isChecked(),
+                                Toast.LENGTH_LONG).show();
+                        track.setSelected(cb.isChecked());
+                    }
+                });
+            }
+            else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            Track track = TrackList.get(position);
+            holder.checkbox.setText("Add");
+            holder.title.setText(track.getName());
+            holder.checkbox.setChecked(track.isSelected());
+            holder.checkbox.setTag(track);
+
+            return convertView;
+
+        }
+
+    }
+
+    private void checkButtonClick() {
+
+
+        Button myButton = (Button) findViewById(R.id.btnSend);
+        myButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                StringBuffer responseText = new StringBuffer();
+                responseText.append("The following were selected...\n");
+
+                ArrayList<Track> TrackList = dataAdapter.TrackList;
+                for(int i=0;i<TrackList.size();i++){
+                    Track track = TrackList.get(i);
+                    if(track.isSelected()){
+                        responseText.append("\n" + track.getName());
+                    }
+                }
+
+                Toast.makeText(getApplicationContext(),
+                        responseText, Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+    //Metodo que llena el list view con los elementos existentes
     public void fillListView(){
+        String track = "1";
         for(int i =0; i < 20; i++){
-            songList.add("Cancion "+ i);
+         // songList.add(i, track);
+        }
+
+    }
+    // Metodo que me inserta la cancion
+    public void saveSong(String song){
+        try{
+            Track tr = new Track();
+            tr.setName(song);
+         //   dbConn.addSong(tr, );
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 
+    // Metodo que me inserta la cancion
+    public void addSongDB(View view){
+        SparseBooleanArray checked = listViewServer.getCheckedItemPositions();
+        ArrayList<String> selectedItems = new ArrayList<String>();
+        String song;
+        for (int i = 0; i < checked.size(); i++) {
+            int position = checked.keyAt(i);
+            if (checked.valueAt(i))
+                selectedItems.add(adapterSend.getItem(position));
+        }
+        for (int i = 0; i < selectedItems.size(); i++) {
+            song = selectedItems.get(i);
+        //    dbConn.addSong(song,username);
+        }
+
+        Toast.makeText(this, "SI si sirvo", Toast.LENGTH_LONG);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -89,6 +239,7 @@ public class PlayListActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
     //Metodo para el navigation drawer
     private void setupNavigationDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(

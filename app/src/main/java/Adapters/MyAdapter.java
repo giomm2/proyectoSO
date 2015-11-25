@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,6 +24,7 @@ import com.example.geo_2.proyectoso.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Data.DBConnection;
 import Domain.Track;
 
 /**
@@ -32,6 +35,8 @@ public class MyAdapter extends BaseAdapter implements ListAdapter{
     private ArrayList<String> listSong = new ArrayList<String>();
     private Context context;
     private int layoutResourceId;
+    private DBConnection dbHelper;
+    String cancion;
 
 
     public MyAdapter(Context context, int list_row, ArrayList<String> songList) {
@@ -68,20 +73,26 @@ public class MyAdapter extends BaseAdapter implements ListAdapter{
         }else{
             holder = (ViewHolder)v.getTag();
         }
-        //Track track = listSong.get(position);
         String track = listSong.get(position);
+
         holder.title.setText((CharSequence) getItem(position));
 
-      /*  holder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "You added " + getItem(position), Toast.LENGTH_LONG).show();
-            }
-        });
-        */
         if(holder.checkBox.isChecked()){
+         //   dbHelper.addSong((String) getItem(position), "Daniel");
+         //   Log.e("Inserto: ", "SE INSERTO EL CHECKBOX MARCADO" + getItem(position));
             Toast.makeText(context, "You added " + getItem(position) , Toast.LENGTH_LONG).show();
         }
+
+
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "You added " + getItem(position) , Toast.LENGTH_LONG).show();
+
+             cancion = (String) getItem(position);
+
+            }
+        });
 
 
         return v;
@@ -89,7 +100,8 @@ public class MyAdapter extends BaseAdapter implements ListAdapter{
 
     public static class ViewHolder{
         TextView title;
-       // Button button;
         CheckBox checkBox;
     }
+
+
 }
